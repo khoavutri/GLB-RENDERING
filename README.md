@@ -1,8 +1,8 @@
-# 🚀 My Amazing Product
+# 🚀 WEBPACK-BASE
 
 🌐 [Demo Links]()
 
-📦 **Owned by:** [Vu Tri Khoa](https://github.com/khoavutri)(https://gitlab.com/khoavip07)
+📦 **Owned by:** [Vu Tri Khoa](https://github.com/khoavutri)
 
 ## ✨ Features
 
