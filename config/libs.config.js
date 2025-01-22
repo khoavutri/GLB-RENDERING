@@ -2,18 +2,16 @@ const path = require("path");
 const webpack = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CopyPlugin = require("copy-webpack-plugin");
 
 const baseConfig = (isProduction) => {
   const config = {
     entry: {
-      khoadev: "./src/index.ts",
+      khoadev: path.resolve(__dirname, "../src/build.ts"),
     },
     output: {
       library: "khoadev",
       filename: isProduction ? "[name].min.js" : "[name].js",
-      path: path.resolve(__dirname, "dist"),
+      path: path.resolve(__dirname, "../dist"),
       publicPath: "/",
       libraryTarget: "umd",
       clean: true,
@@ -44,10 +42,6 @@ const baseConfig = (isProduction) => {
     },
     plugins: [
       new CleanWebpackPlugin(),
-      new HtmlWebpackPlugin({
-        template: "./index.html",
-        filename: "index.html",
-      }),
       new webpack.BannerPlugin({
         banner: "The product is owned by Vu Tri Khoa",
       }),
@@ -63,26 +57,12 @@ const baseConfig = (isProduction) => {
           },
           extractComments: false,
         }),
-        new CopyPlugin({
-          patterns: [{ from: "public", to: "public" }],
-        }),
       ],
     },
     devtool: "source-map",
     mode: isProduction ? "production" : "development",
     watch: false,
   };
-
-  if (!isProduction) {
-    config.devServer = {
-      static: {
-        directory: path.join(__dirname, "dist"),
-      },
-      open: true,
-      host: "0.0.0.0",
-      port: 8080,
-    };
-  }
 
   return config;
 };

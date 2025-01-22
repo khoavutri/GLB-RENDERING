@@ -8,6 +8,6 @@
     "allowJs": true,
     "typeRoots": ["./node_modules/@types", "./src/@types"]
   },
-  "include": ["./src/**/*"],
+  "include": ["./src/**/*", "libs.config.js"],
   "exclude": ["node_modules"]
 }

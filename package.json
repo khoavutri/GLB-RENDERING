@@ -7,10 +7,10 @@
     "clear": "del /s /q dist || rm -rf dist",
     "clear:public": "del /s /q dist\\public && rmdir /s /q dist\\public",
     "clear:html": "del /s /q dist\\*.html || rm -f dist/*.html",
-    "build:dev": "npm run clear && cross-env NODE_ENV=development webpack --mode=development && npm run clear:html && npm run clear:public",
-    "build:prod": "npm run clear && cross-env NODE_ENV=production webpack --mode=production && npm run clear:html && npm run clear:public",
-    "build": "npm run clear && webpack",
-    "start": "webpack serve"
+    "build:dev": "cross-env NODE_ENV=development webpack --config config/libs.config.js",
+    "build:prod": "cross-env NODE_ENV=production webpack --config config/libs.config.js",
+    "build": "webpack --config config/webpack.config.js",
+    "start": "webpack serve --config config/webpack.config.js"
   },
   "author": "",
   "license": "ISC",
