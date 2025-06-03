@@ -1,4 +1,4 @@
-import { KhoaTools } from "./main/main";
+import * as KhoaTools from "./main/main";
 
 console.log("The product is owned by Vu Tri Khoa");
 if (typeof module !== "undefined" && module.exports) {

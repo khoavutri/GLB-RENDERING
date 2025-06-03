@@ -16,7 +16,7 @@
 
 ```bash
 # Clone the repository
-git clone https://gitlab.com/khoavip07/webpack-base.git
+git clone https://github.com/khoavutri/GLB-RENDERING.git
 
 # Install dependencies
 npm install
