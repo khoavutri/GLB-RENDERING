@@ -217,6 +217,7 @@ export class GlbManager {
             throw e;
         }
     }
+
     render(canvas: HTMLCanvasElement) {
         const fieldOfValueItem: any = 90;
         const shininessItem: any = 150;
