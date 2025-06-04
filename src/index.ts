@@ -4,6 +4,17 @@ const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 const glbManager = new GlbManager();
 glbManager.render(canvas)
 
+function updateCanvasSize() {
+    const minWidth = document.documentElement.clientWidth;
+    canvas.width = Math.min(minWidth - 20, 500);
+    canvas.style.width = `${canvas.width}px`;
+    canvas.height = Math.min(canvas.width, 450)
+    canvas.style.height = `${canvas.height}px`
+    canvas.style.margin = `10px`;
+}
+
+updateCanvasSize();
+
 button.addEventListener("click", () => {
     const input = document.createElement("input");
     input.type = "file";

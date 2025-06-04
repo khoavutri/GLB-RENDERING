@@ -4,14 +4,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
+  <link rel="icon" href="public/khoadev.png" type="image/x-icon" />
+  <title>GLB Rendering</title>
+  <style>
+    .flex {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      display: flex;
+      gap: 10px;
+    }
+  </style>
 </head>
 
 <body>
-  <canvas id="canvas" height="450" width="600" style="background-color: red"></canvas>
-  <button id="button-upload">
-    upload file
-  </button>
+  <div class="flex">
+    <canvas id="canvas" height="450" width="600"></canvas>
+    <div class="container">
+      <button id="button-upload" style="width: 100px;">
+        upload file
+      </button>
+    </div>
+  </div>
 </body>
 
 </html>
