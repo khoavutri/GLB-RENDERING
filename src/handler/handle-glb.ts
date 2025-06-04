@@ -211,6 +211,7 @@ export class GlbManager {
             if (!gltf.meshes || !gltf.meshes[0] || !gltf.meshes[0].primitives || !gltf.meshes[0].primitives[0]) {
                 throw new Error("Không tìm thấy mesh hoặc primitive hợp lệ");
             }
+
             console.log(gltf);
         } catch (e) {
             console.error("Lỗi đọc GLB:", e);
@@ -221,6 +222,7 @@ export class GlbManager {
     render(canvas: HTMLCanvasElement) {
         const fieldOfValueItem: any = 90;
         const shininessItem: any = 150;
+        const translateRate = 5;
 
         let locateX = 0;
         let locateY = 0;
@@ -366,6 +368,7 @@ export class GlbManager {
         requestAnimationFrame(drawScene)
 
         canvas.addEventListener("mousedown", (event: MouseEvent) => {
+            if (event.button === 2) return;
             const rect = canvas.getBoundingClientRect();
             locateX = ((event.clientX - rect.left) / rect.width) * 2 - 1;
             locateY = -((event.clientY - rect.top) / rect.height) * 2 + 1;
@@ -420,6 +423,58 @@ export class GlbManager {
             canvas.addEventListener("mousemove", onMouseMove);
             canvas.addEventListener("mouseup", onMouseUp);
         });
+
+        canvas.addEventListener("mousedown", (event: MouseEvent) => {
+            if (event.button !== 2) return;
+            const rect = canvas.getBoundingClientRect();
+            locateX = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+            locateY = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+            const onMouseMove = (e: MouseEvent) => {
+                const touchMove = e;
+                const yAxis: any = [0, 1, 0];
+                const xAxis: any = [1, 0, 0];
+
+                vec3.transformMat3(
+                    yAxis,
+                    yAxis,
+                    mat3.fromMat4(mat3.create(), mat4.invert(mat4.create(), viewer))
+                );
+
+                vec3.transformMat3(
+                    xAxis,
+                    xAxis,
+                    mat3.fromMat4(mat3.create(), mat4.invert(mat4.create(), viewer))
+                );
+
+                const rect = canvas.getBoundingClientRect();
+                const locatingX = ((touchMove.clientX - rect.left) / rect.width) * 2 - 1;
+                const locatingY = -((touchMove.clientY - rect.top) / rect.height) * 2 + 1;
+
+                mat4.multiply(
+                    matrix,
+                    mat4.translate(mat4.create(), mat4.create(), [-(locatingX - locateX) * translateRate, (locatingY - locateY) * translateRate, 0.0]),
+                    matrix
+                );
+
+                locateX = locatingX;
+                locateY = locatingY;
+
+                rendering = true
+                requestAnimationFrame(drawScene)
+            };
+
+            const onMouseUp = () => {
+                locateX = 0;
+                locateY = 0;
+                canvas.removeEventListener("mousemove", onMouseMove);
+                canvas.removeEventListener("mouseup", onMouseUp);
+            };
+
+            canvas.addEventListener("mousemove", onMouseMove);
+            canvas.addEventListener("mouseup", onMouseUp);
+        });
+
+        canvas.addEventListener("contextmenu", (e) => e.preventDefault());
 
         canvas.addEventListener("wheel", (e: any) => {
             e.preventDefault();
@@ -540,9 +595,43 @@ export class GlbManager {
                     scaleSave = 2.5;
                 }
 
+                // Handle translation
+                const rect = canvas.getBoundingClientRect();
+                const currentMidpointX = ((event.touches[0].clientX + event.touches[1].clientX) / 2 - rect.left) / rect.width * 2 - 1;
+                const currentMidpointY = -((event.touches[0].clientY + event.touches[1].clientY) / 2 - rect.top) / rect.height * 2 + 1;
+
+                const yAxis: any = [0, 1, 0];
+                const xAxis: any = [1, 0, 0];
+
+                vec3.transformMat3(
+                    yAxis,
+                    yAxis,
+                    mat3.fromMat4(mat3.create(), mat4.invert(mat4.create(), viewer))
+                );
+
+                vec3.transformMat3(
+                    xAxis,
+                    xAxis,
+                    mat3.fromMat4(mat3.create(), mat4.invert(mat4.create(), viewer))
+                );
+
+                mat4.multiply(
+                    matrix,
+                    mat4.translate(mat4.create(), mat4.create(), [-(currentMidpointX - locateX) * translateRate, (currentMidpointY - locateY) * translateRate, 0.0]),
+                    matrix
+                );
+
+                locateX = currentMidpointX;
+                locateY = currentMidpointY;
+
                 rendering = true
                 requestAnimationFrame(drawScene)
             }
+        });
+
+        canvas.addEventListener("touchend", () => {
+            locateX = 0;
+            locateY = 0;
         });
     }
 
