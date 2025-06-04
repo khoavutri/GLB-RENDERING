@@ -212,7 +212,10 @@ export class GlbManager {
                 throw new Error("Không tìm thấy mesh hoặc primitive hợp lệ");
             }
 
-            console.log(gltf);
+            console.log(gltf.meshes);
+            gltf.meshes.forEach((mesh: any) => {
+
+            });
         } catch (e) {
             console.error("Lỗi đọc GLB:", e);
             throw e;
@@ -665,5 +668,4 @@ export class GlbManager {
         console.error(gl.getProgramInfoLog(program));
         return null;
     };
-
 }
