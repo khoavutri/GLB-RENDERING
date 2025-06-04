@@ -214,7 +214,9 @@ export class GlbManager {
 
             console.log(gltf.meshes);
             gltf.meshes.forEach((mesh: any) => {
+                if (mesh && mesh.primitives) {
 
+                }
             });
         } catch (e) {
             console.error("Lỗi đọc GLB:", e);
